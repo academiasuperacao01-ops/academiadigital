@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Login Admin — Academia Digital{% endblock %}
+{% block content %}
+<section class="auth-section">
+  <div class="auth-box">
+    <p class="auth-eyebrow">⚡ ÁREA RESTRITA</p>
+    <h1 class="auth-title">Painel Admin</h1>
+    <form method="POST">
+      <label>E-mail</label>
+      <input type="email" name="email" required autofocus placeholder="admin@email.com">
+      <label>Senha</label>
+      <input type="password" name="password" required placeholder="••••••••">
+      <button type="submit" class="btn btn-buy btn-full" style="margin-top:20px">Entrar</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

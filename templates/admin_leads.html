@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Leads — Academia Digital{% endblock %}
+{% block content %}
+<div class="admin-wrap">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <p class="section-label">CLIENTES INTERESSADOS</p>
+        <h1 class="admin-title">Leads captados</h1>
+      </div>
+      <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">← Ebooks</a>
+    </div>
+
+    {% if leads %}
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Nome</th><th>E-mail</th><th>WhatsApp</th><th>Ebook</th><th>Consentiu</th><th>Data</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lead in leads %}
+          <tr>
+            <td><strong>{{ lead.name }}</strong></td>
+            <td><a href="mailto:{{ lead.email }}">{{ lead.email }}</a></td>
+            <td><a href="https://wa.me/55{{ lead.whatsapp|replace('(','') |replace(')','') |replace(' ','') |replace('-','') }}" target="_blank">{{ lead.whatsapp }}</a></td>
+            <td>{{ lead.ebook.title }}</td>
+            <td>{{ "✅ Sim" if lead.consented else "❌ Não" }}</td>
+            <td style="white-space:nowrap">{{ lead.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+            <td>
+              <form method="POST" action="{{ url_for('lead_delete', lid=lead.id) }}"
+                    onsubmit="return confirm('Excluir este lead?')" style="display:inline">
+                <button class="btn btn-small btn-danger">Excluir</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="empty-state">Nenhum lead ainda. Quando clientes preencherem o formulário aparecerão aqui.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

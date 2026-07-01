@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Painel Admin — Academia Digital{% endblock %}
+{% block content %}
+<div class="admin-wrap">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <p class="section-label">GERENCIAMENTO</p>
+        <h1 class="admin-title">Ebooks cadastrados</h1>
+      </div>
+      <a href="{{ url_for('ebook_new') }}" class="btn btn-buy">+ Novo Ebook</a>
+    </div>
+
+    {% if ebooks %}
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Capa</th><th>Título</th><th>Preço</th><th>Leads</th><th>Link</th><th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ebook in ebooks %}
+          <tr>
+            <td><img src="{{ ebook.image_src }}" class="thumb"></td>
+            <td><strong>{{ ebook.title }}</strong></td>
+            <td>{{ ebook.price or "—" }}</td>
+            <td><a href="{{ url_for('admin_leads') }}">{{ ebook.leads|length }} lead(s)</a></td>
+            <td><a href="{{ ebook.purchase_link }}" target="_blank">Ver link ↗</a></td>
+            <td class="actions">
+              <a href="{{ url_for('ebook_edit', eid=ebook.id) }}" class="btn btn-small">Editar</a>
+              <form method="POST" action="{{ url_for('ebook_delete', eid=ebook.id) }}" style="display:inline"
+                    onsubmit="return confirm('Excluir este ebook?')">
+                <button class="btn btn-small btn-danger">Excluir</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="empty-state">Nenhum ebook. Clique em "Novo Ebook" para começar.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

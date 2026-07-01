@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Academia Digital — Ebooks Fitness Premium{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="container hero-content">
+    <p class="hero-eyebrow">⚡ EBOOKS FITNESS PREMIUM</p>
+    <h1 class="hero-title">Transforme seu <span class="highlight">corpo e mente</span> com conhecimento de elite</h1>
+    <p class="hero-sub">Guias desenvolvidos por especialistas. Resultados reais. Acesso imediato.</p>
+    <a href="#ebooks" class="btn btn-buy hero-cta">Ver todos os ebooks</a>
+  </div>
+  <div class="hero-stats">
+    <div class="container hero-stats-inner">
+      <div class="stat"><strong>+10k</strong><span>Alunos</span></div>
+      <div class="stat-div"></div>
+      <div class="stat"><strong>100%</strong><span>Digital</span></div>
+      <div class="stat-div"></div>
+      <div class="stat"><strong>⭐ 4.9</strong><span>Avaliação</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- EBOOKS -->
+<section id="ebooks" class="section-ebooks">
+  <div class="container">
+    <p class="section-label">NOSSO CATÁLOGO</p>
+    <h2 class="section-title">Escolha seu <span class="highlight">programa</span></h2>
+
+    {% if ebooks %}
+    <div class="ebook-grid">
+      {% for ebook in ebooks %}
+      <article class="ebook-card" id="ebook-{{ ebook.id }}">
+        <div class="ebook-img-wrap">
+          <img src="{{ ebook.image_src }}" alt="{{ ebook.title }}" class="ebook-img">
+          {% if ebook.price %}
+            <span class="ebook-badge">{{ ebook.price }}</span>
+          {% endif %}
+          <button class="share-btn"
+            onclick="shareEbook('{{ ebook.title|e }}', '{{ request.url_root }}#ebook-{{ ebook.id }}')"
+            title="Compartilhar">
+            🔗
+          </button>
+        </div>
+        <div class="ebook-body">
+          <h3 class="ebook-title">{{ ebook.title }}</h3>
+          <p class="ebook-desc">{{ ebook.description }}</p>
+          <div class="ebook-footer">
+            {% if ebook.price %}
+              <span class="ebook-price">{{ ebook.price }}</span>
+            {% endif %}
+            <button class="btn btn-buy"
+              onclick="openModal({{ ebook.id }}, '{{ ebook.title|e }}', '{{ ebook.price or '' }}', '{{ ebook.purchase_link|e }}')">
+              ⚡ Adquirir agora
+            </button>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Em breve novos ebooks. Fique ligado!</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- BENEFÍCIOS -->
+<section class="section-benefits">
+  <div class="container benefits-grid">
+    <div class="benefit">
+      <span class="benefit-icon">📲</span>
+      <h4>Acesso imediato</h4>
+      <p>Receba o link do seu ebook assim que finalizar a compra.</p>
+    </div>
+    <div class="benefit">
+      <span class="benefit-icon">♾️</span>
+      <h4>Acesso vitalício</h4>
+      <p>Sem mensalidade. Pague uma vez e tenha para sempre.</p>
+    </div>
+    <div class="benefit">
+      <span class="benefit-icon">🏆</span>
+      <h4>Conteúdo especialista</h4>
+      <p>Desenvolvido por profissionais de educação física e nutrição.</p>
+    </div>
+    <div class="benefit">
+      <span class="benefit-icon">🔒</span>
+      <h4>Compra segura</h4>
+      <p>Pagamento 100% seguro. Satisfação garantida.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}
